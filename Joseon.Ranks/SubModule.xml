@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Joseon.Ranks 모듈 디스크립터 (신분·관직).
+  배포: 서버의 Modules/Joseon.Ranks/SubModule.xml, DLL은 루트 bin/Win64_Shipping_Server/.
+  로드 순서: Native, Multiplayer, PersistentEmpires, Joseon.Core 다음에 Joseon.Ranks.
+-->
+<Module>
+	<Name value="Joseon RP - Ranks" />
+	<Id value="Joseon.Ranks" />
+	<Version value="v0.1.0" />
+	<ModuleCategory value="Multiplayer" />
+	<DependedModules>
+		<DependedModule Id="Native" Optional="false" />
+		<DependedModule Id="Multiplayer" Optional="false" />
+		<DependedModule Id="PersistentEmpires" Optional="false" />
+		<DependedModule Id="Joseon.Core" Optional="false" />
+	</DependedModules>
+	<SubModules>
+		<SubModule>
+			<Name value="Joseon.Ranks" />
+			<DLLName value="Joseon.Ranks.dll" />
+			<SubModuleClassType value="Joseon.Ranks.RanksSubModule" />
+			<Tags>
+				<Tag key="DedicatedServerType" value="custom" />
+			</Tags>
+		</SubModule>
+	</SubModules>
+</Module>
