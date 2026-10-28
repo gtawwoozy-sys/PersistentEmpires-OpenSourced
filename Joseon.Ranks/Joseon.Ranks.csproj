@@ -39,6 +39,10 @@
 			<HintPath>$(CoreDll)</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="PersistentEmpiresLib">
+			<HintPath>..\PersistentEmpiresLib\PersistentEmpiresLib\bin\ReleaseServer\PersistentEmpiresLib.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<Reference Include="TaleWorlds.Core">
 			<HintPath>$(ReferenceFolder)\TaleWorlds.Core.dll</HintPath>
 			<Private>False</Private>
@@ -61,6 +65,10 @@
 		</Reference>
 		<Reference Include="TaleWorlds.MountAndBlade">
 			<HintPath>$(ReferenceFolder)\TaleWorlds.MountAndBlade.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="TaleWorlds.PlayerServices">
+			<HintPath>$(ReferenceFolder)\TaleWorlds.PlayerServices.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
