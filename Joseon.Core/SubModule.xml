@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Joseon.Core 모듈 디스크립터.
+  배포 시 서버의 Modules/Joseon.Core/SubModule.xml 로 복사하고,
+  Joseon.Core.dll 은 서버 루트 bin/Win64_Shipping_Server/ 에 둔다.
+  로드 순서: Native, Multiplayer, PersistentEmpires 다음에 Joseon.Core.
+  (start.bat 의 _MODULES_ 인자에 *Joseon.Core* 추가)
+-->
+<Module>
+	<Name value="Joseon RP - Core" />
+	<Id value="Joseon.Core" />
+	<Version value="v0.1.0" />
+	<ModuleCategory value="Multiplayer" />
+	<DependedModules>
+		<DependedModule Id="Native" Optional="false" />
+		<DependedModule Id="Multiplayer" Optional="false" />
+		<DependedModule Id="PersistentEmpires" Optional="false" />
+	</DependedModules>
+	<SubModules>
+		<SubModule>
+			<Name value="Joseon.Core" />
+			<DLLName value="Joseon.Core.dll" />
+			<SubModuleClassType value="Joseon.Core.JoseonCoreSubModule" />
+			<Tags>
+				<Tag key="DedicatedServerType" value="custom" />
+			</Tags>
+		</SubModule>
+	</SubModules>
+</Module>

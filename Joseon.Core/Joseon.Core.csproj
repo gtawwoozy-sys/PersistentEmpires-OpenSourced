@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<!--
+	  Joseon.Core — 조선 RP 커스텀 모듈의 공통 토대 (독립 Bannerlord 모듈).
+	  PE 코어는 직접 수정하지 않는다 (업스트림 머지 용이). 이 모듈 위에
+	  Joseon.Factions / Joseon.Ranks / Joseon.Economy / Joseon.Events 가 올라간다.
+	  참조 DLL은 PE Lib의 ServerReferences(= v1.4.8 Dedicated Server DLL)를 재사용.
+	-->
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<RootNamespace>Joseon.Core</RootNamespace>
+		<AssemblyName>Joseon.Core</AssemblyName>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+		<LangVersion>7.3</LangVersion>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<Configurations>ReleaseServer;ReleaseClient</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='ReleaseServer'">
+		<ReferenceFolder>..\PersistentEmpiresLib\PersistentEmpiresLib\ServerReferences</ReferenceFolder>
+		<OutputType>Library</OutputType>
+		<Optimize>true</Optimize>
+		<DefineConstants>TRACE;SERVER</DefineConstants>
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='ReleaseClient'">
+		<ReferenceFolder>..\PersistentEmpiresLib\PersistentEmpiresLib\ClientReferences</ReferenceFolder>
+		<OutputType>Library</OutputType>
+		<Optimize>true</Optimize>
+		<DefineConstants>TRACE;CLIENT</DefineConstants>
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="TaleWorlds.Core">
+			<HintPath>$(ReferenceFolder)\TaleWorlds.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="TaleWorlds.Engine">
+			<HintPath>$(ReferenceFolder)\TaleWorlds.Engine.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="TaleWorlds.Library">
+			<HintPath>$(ReferenceFolder)\TaleWorlds.Library.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="TaleWorlds.ObjectSystem">
+			<HintPath>$(ReferenceFolder)\TaleWorlds.ObjectSystem.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="TaleWorlds.DotNet">
+			<HintPath>$(ReferenceFolder)\TaleWorlds.DotNet.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="TaleWorlds.MountAndBlade">
+			<HintPath>$(ReferenceFolder)\TaleWorlds.MountAndBlade.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+</Project>
