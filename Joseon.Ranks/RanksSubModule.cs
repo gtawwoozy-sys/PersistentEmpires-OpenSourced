@@ -27,7 +27,9 @@ namespace Joseon.Ranks
         {
             base.OnMissionBehaviorInitialize(mission);
             mission.AddMissionBehavior(new RanksMissionBehavior());
-            JoseonLog.Info(Tag, "RanksMissionBehavior 미션에 주입됨");
+            // [임시] 바닐라/스폰프레임 없는 맵에서도 스폰되게 해주는 맵 호환 브릿지.
+            mission.AddMissionBehavior(new JoseonSpawnCompatBehavior());
+            JoseonLog.Info(Tag, "RanksMissionBehavior + JoseonSpawnCompatBehavior 미션에 주입됨");
         }
     }
 }

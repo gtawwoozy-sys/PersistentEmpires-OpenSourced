@@ -377,39 +377,42 @@ namespace PersistentEmpiresHarmony.Patches
                 return;
             }
 
-            // --- Chunk snapshot ---
-            List<MissionObject> toBeSend;
+            // --- Chunk snapshot: 보낼 청크가 있을 때만 하나 보낸다 ---
+            // [JOSEON FIX] 청크가 0개(바닐라 맵 등 PE 오브젝트 없음)여도 return하지 말고
+            // 아래 finish 단계로 내려가 ExistingObjectsEnd를 보내 sync를 완료해야 한다.
+            // (기존 버그: chunkedMissionObjects.Count==0 이면 매 틱 return → sync 영원히 미완 → 클라 로고에서 멈춤)
+            List<MissionObject> toBeSend = null;
 
             lock (_chunkedObjectsLock)
             {
-                if (chunkedMissionObjects.Count == 0)
-                    return;
-
-                if (syncingTrack.chunkIndex >= chunkedMissionObjects.Count)
-                    return;
-
-                // 🔥 CRASH FIX: full snapshot
-                toBeSend = chunkedMissionObjects[syncingTrack.chunkIndex]
-                    .ToList();
+                if (chunkedMissionObjects.Count > 0 && syncingTrack.chunkIndex < chunkedMissionObjects.Count)
+                {
+                    // 🔥 CRASH FIX: full snapshot
+                    toBeSend = chunkedMissionObjects[syncingTrack.chunkIndex].ToList();
+                }
             }
 
-            try
+            if (toBeSend != null)
             {
-                SynchronizeMissionObjectsToPeer(syncingTrack.peer, toBeSend);
-            }
-            catch (Exception ex)
-            {
-                StackTrace myTrace = new StackTrace(0, true);
-                PersistentEmpiresHarmonySubModule.RglExceptionThrown(myTrace, ex);
-                return; // next tick retry
-            }
+                try
+                {
+                    SynchronizeMissionObjectsToPeer(syncingTrack.peer, toBeSend);
+                }
+                catch (Exception ex)
+                {
+                    StackTrace myTrace = new StackTrace(0, true);
+                    PersistentEmpiresHarmonySubModule.RglExceptionThrown(myTrace, ex);
+                    return; // next tick retry
+                }
 
-            syncingTrack.chunkIndex++;
+                syncingTrack.chunkIndex++;
+            }
 
             bool finished = false;
 
             lock (_chunkedObjectsLock)
             {
+                // 청크 0개면 chunkIndex(0) >= Count(0) → 즉시 완료로 간주
                 finished = syncingTrack.chunkIndex >= chunkedMissionObjects.Count;
             }
 
@@ -434,7 +437,6 @@ namespace PersistentEmpiresHarmony.Patches
 
             syncingTrack.synced = true;
         }
-
 
         public static bool BetterSendExistingObjectsToPeer(MissionNetwork __instance, NetworkCommunicator networkPeer)
         {

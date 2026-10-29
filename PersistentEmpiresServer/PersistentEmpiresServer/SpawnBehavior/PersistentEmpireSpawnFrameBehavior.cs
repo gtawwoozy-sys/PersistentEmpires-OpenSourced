@@ -92,7 +92,9 @@ namespace PersistentEmpiresServer.SpawnBehavior
                 {
                     MissionPeer component = networkCommunicator.GetComponent<MissionPeer>();
                     PersistentEmpireRepresentative persistentEmpireRepresentative = networkCommunicator.GetComponent<PersistentEmpireRepresentative>();
-                    if (component != null && component.ControlledAgent == null && component.HasSpawnedAgentVisuals && !this.CanUpdateSpawnEquipment(component) && persistentEmpireRepresentative != null)
+                    // [JOSEON] 바닐라 맵엔 스폰 UI(장비 확정)가 없어 CanUpdateSpawnEquipment가 영영 true → 스폰 교착.
+                    // 비주얼이 생기면 기본 장비로 바로 스폰하도록 해당 체크를 우회한다.
+                    if (component != null && component.ControlledAgent == null && component.HasSpawnedAgentVisuals && persistentEmpireRepresentative != null)
                     {
                         if (WoundingBehavior.Instance.WoundingEnabled 
                             && WoundingBehavior.Instance.DeathEquipment.ContainsKey(networkCommunicator.VirtualPlayer?.ToPlayerId())
